@@ -88,7 +88,7 @@ class RefTask(PoeTask):
         invocation_tokens = tuple(
             env.fill_template(token) for token in shlex.split(expanded_content)
         )
-        if "POE_EXTRA_ARGS" in self.spec.content:
+        if self._content_uses_extra_args():
             ref_invocation = invocation_tokens
         else:
             ref_invocation = (*invocation_tokens, *extra_args)

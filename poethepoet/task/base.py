@@ -443,6 +443,17 @@ class PoeTask(metaclass=MetaPoeTask):
 
         return None
 
+    def _content_uses_extra_args(self) -> bool:
+        """
+        Check if task content explicitly references $POE_EXTRA_ARGS.
+
+        If the content includes a reference to $POE_EXTRA_ARGS that means that the
+        task content is already designed to include extra arguments, and that we
+        should not append extra arguments automatically to the end of the content.
+        """
+        content = self.spec.content
+        return "$POE_EXTRA_ARGS" in content or "${POE_EXTRA_ARGS" in content
+
     def get_parsed_arguments(
         self, env: TaskEnv
     ) -> tuple[dict[str, Any], tuple[str, ...]]:

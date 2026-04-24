@@ -64,7 +64,7 @@ class CmdTask(PoeTask):
 
         executor = self._get_executor(context, env)
 
-        if "POE_EXTRA_ARGS" in self.spec.content:
+        if self._content_uses_extra_args():
             cmd = tuple(self._resolve_commandline(context, env))
         else:
             cmd = (*self._resolve_commandline(context, env), *extra_args)
