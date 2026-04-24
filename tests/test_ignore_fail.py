@@ -534,11 +534,14 @@ def test_ref_parallel_return_non_zero(generate_composed_pyproject, run_poe):
     project_path = generate_composed_pyproject()
     result = run_poe("ref_par_return_non_zero", cwd=project_path)
     assert result.code == 1, "Expected non-zero result"
-    assert "Subtasks 'child_fail_a', 'child_fail_b' returned non-zero exit status" in (
-        result.capture
-    ) or "Subtasks 'child_fail_b', 'child_fail_a' returned non-zero exit status" in (
-        result.capture
+    possible_msgs = (
+        "Subtasks 'child_fail_a', 'child_fail_b' returned non-zero exit status",
+        "Subtasks 'child_fail_b', 'child_fail_a' returned non-zero exit status",
+        # Only one subtask may complete before the parallel task is aborted
+        "Subtask 'child_fail_a' returned non-zero exit status",
+        "Subtask 'child_fail_b' returned non-zero exit status",
     )
+    assert any(msg in result.capture for msg in possible_msgs)
 
 
 def test_ref_parallel_return_non_zero_ignore(generate_composed_pyproject, run_poe):
