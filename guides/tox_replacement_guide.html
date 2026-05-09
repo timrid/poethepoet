@@ -376,36 +376,6 @@ uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </
 </pre></div>
 </div>
 </section>
-<section id="passing-extra-arguments-to-all-test-variants">
-<h3>Passing extra arguments to all test variants<a class="headerlink" href="#passing-extra-arguments-to-all-test-variants" title="Link to this heading">¶</a></h3>
-<p>You can pass additional CLI arguments through to tasks in a sequence (or parallel group) by separating them from any sequence-level arguments using <code class="code highlight sh docutils literal highlight-sh">--</code>. To enable a task to receive these forwarded arguments, set <code class="docutils literal notranslate"><span class="pre">inherit-extra-args</span> <span class="pre">=</span> <span class="pre">true</span></code> on that task:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poe<span class="w"> </span>test-all<span class="w"> </span>--<span class="w"> </span>-k<span class="w"> </span>test_my_feature
-</pre></div>
-</div>
-<p>This forwards <code class="docutils literal notranslate"><span class="pre">-k</span> <span class="pre">test_my_feature</span></code> to each individual test task that has opted in, so every matching <code class="docutils literal notranslate"><span class="pre">pytest</span></code> invocation receives the extra flag. This is equivalent to tox’s <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">--</span> <span class="pre">-k</span> <span class="pre">test_my_feature</span></code> syntax.</p>
-<p>For example, given the configuration from the <a class="reference internal" href="#basic-migration"><span class="std std-ref">Basic migration</span></a> section, add <code class="docutils literal notranslate"><span class="pre">inherit-extra-args</span> <span class="pre">=</span> <span class="pre">true</span></code> to the individual test tasks:</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tool.poe.tasks.test-py310]</span>
-<span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pytest tests --cov=mypackage&quot;</span>
-<span class="n">inherit-extra-args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-
-<span class="k">[tool.poe.tasks.test-py311]</span>
-<span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pytest tests --cov=mypackage&quot;</span>
-<span class="n">inherit-extra-args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-
-<span class="k">[tool.poe.tasks.test-py312]</span>
-<span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;pytest tests --cov=mypackage&quot;</span>
-<span class="n">inherit-extra-args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-
-<span class="k">[tool.poe.tasks.test-all]</span>
-<span class="n">sequence</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;test-py310&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;test-py311&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;test-py312&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>Running:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poe<span class="w"> </span>test-all<span class="w"> </span>--<span class="w"> </span>-k<span class="w"> </span>test_my_feature<span class="w"> </span>--tb<span class="o">=</span>short
-</pre></div>
-</div>
-<p>will run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">tests</span> <span class="pre">--cov=mypackage</span> <span class="pre">-k</span> <span class="pre">test_my_feature</span> <span class="pre">--tb=short</span></code> for each Python version.</p>
-</section>
 <section id="environment-variables">
 <h3>Environment variables<a class="headerlink" href="#environment-variables" title="Link to this heading">¶</a></h3>
 <p>tox allows setting environment variables for test runs using the <code class="docutils literal notranslate"><span class="pre">setenv</span></code> option. You can achieve the same with Poe the Poet using the <code class="docutils literal notranslate"><span class="pre">env</span></code> or <code class="docutils literal notranslate"><span class="pre">envfile</span></code> options.</p>
@@ -503,7 +473,6 @@ uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </
 <li><a class="reference internal" href="#testing-with-optional-dependencies">Testing with optional dependencies</a></li>
 <li><a class="reference internal" href="#compose-testing-with-other-tasks">Compose testing with other tasks</a></li>
 <li><a class="reference internal" href="#parallel-execution">Parallel execution</a></li>
-<li><a class="reference internal" href="#passing-extra-arguments-to-all-test-variants">Passing extra arguments to all test variants</a></li>
 <li><a class="reference internal" href="#environment-variables">Environment variables</a></li>
 </ul>
 </li>
@@ -518,7 +487,7 @@ uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=c79cc614"></script>
+</div><script src="../_static/documentation_options.js?v=b6498c4d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>

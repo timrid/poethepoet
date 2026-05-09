@@ -128,7 +128,9 @@ So running this task would look like:
   ...
 
 
-Forwarding free arguments to case tasks
-----------------------------------------
+Forwarding free arguments via ``$POE_EXTRA_ARGS``
+-------------------------------------------------
 
-Free arguments can be forwarded to individual case tasks by setting ``inherit-extra-args = true`` on those case tasks. See :ref:`Forwarding free arguments to subtasks` in the :doc:`args guide<../../guides/args_guide>` for details.
+Free arguments passed to a switch task are available as ``$POE_EXTRA_ARGS`` and are inherited by the selected subtask. This makes it possible to forward arbitrary extra arguments to whichever branch is executed.
+
+See the :ref:`forwarding-free-arguments-via-poe-extra-args` section of the args guide for details and examples.
